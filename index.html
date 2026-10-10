@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Visual Interaktif: Diskriminan & Jenis Akar Persamaan Kuadrat | Matematika SMA Fase E</title>
+  <meta name="description" content="Media pembelajaran interaktif matematika SMA Fase E untuk eksplorasi visual nilai diskriminan D = b² - 4ac, sifat grafik fungsi kuadrat, dan Teorema Vieta.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- KaTeX CDN for LaTeX Formula Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+
+  <!-- Canvas Confetti for Challenge Celebrations -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Custom Slider Styles */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: 9999px;
+      background: #334155;
+    }
+    input[type=range]::-moz-range-track {
+      height: 8px;
+      border-radius: 9999px;
+      background: #334155;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #6366f1;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+      cursor: pointer;
+      margin-top: -7px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #4f46e5;
+    }
+    input[type=range]::-moz-range-thumb {
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #6366f1;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    /* Soundwave Audio Indicator */
+    @keyframes soundwave {
+      0%, 100% { height: 6px; }
+      50% { height: 22px; }
+    }
+    .wave-bar {
+      width: 3.5px;
+      background-color: #6366f1;
+      border-radius: 2px;
+      animation: soundwave 1s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-brand-500 selection:text-white antialiased flex flex-col">
+
+  <!-- TOP ANNOUNCEMENT & BADGE BAR -->
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-brand-500/25 ring-1 ring-white/20">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-300 border border-brand-500/20">
+              Matematika SMA Fase E
+            </span>
+            <span class="text-xs text-slate-400 hidden sm:inline">• Kurikulum Merdeka</span>
+          </div>
+          <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-white via-slate-100 to-brand-200 bg-clip-text text-transparent">
+            Lab Visual Interaktif Diskriminan & Jenis Akar
+          </h1>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button id="btnVoiceNarration" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition shadow-sm active:scale-95" title="Dengarkan Penjelasan AI">
+          <svg id="iconSpeaker" class="w-4 h-4 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+          <span id="labelVoice">Dengarkan AI</span>
+          <div id="audioWaveBars" class="hidden flex items-center gap-0.5 h-4 ml-1">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </button>
+
+        <button id="btnDownloadPNG" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-brand-600 hover:bg-brand-500 text-white transition shadow-sm shadow-brand-600/20 active:scale-95" title="Simpan Grafik sebagai Gambar PNG">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span class="hidden sm:inline">Unduh PNG</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-grow">
+    
+    <!-- Top Learning Objective Ribbon -->
+    <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-brand-950/40 to-slate-900 border border-brand-500/20 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <div class="flex items-start gap-3">
+        <div class="p-2 rounded-xl bg-brand-500/10 text-brand-400 border border-brand-500/20 shrink-0 mt-0.5">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-sm font-semibold text-white">Eksplorasi Konsep Persamaan & Fungsi Kuadrat</h2>
+          <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">
+            Amati bagaimana koefisien <span class="text-brand-300 font-semibold">a, b, c</span> memengaruhi nilai diskriminan <span class="text-brand-300 font-semibold font-mono">D = b² - 4ac</span>, jenis akar aljabar, posisi titik puncak, serta perpotongan kurva terhadap sumbu-X.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-xs">
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> D > 0 (2 Titik Potong)
+        </span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> D = 0 (1 Titik Singgung)
+        </span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> D &lt; 0 (Melayang)
+        </span>
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- LEFT COLUMN: CONTROLS, DISCRIMINANT CALCULATIONS, VIETA -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- CARD 1: PARAMETER CONTROLS & FORMULA -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+              Kontrol Parameter Koefisien
+            </h3>
+            <button id="btnResetDefault" class="text-xs text-slate-400 hover:text-white transition flex items-center gap-1 px-2 py-1 rounded hover:bg-slate-800">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Reset
+            </button>
+          </div>
+
+          <!-- DYNAMIC KATEX EQUATION DISPLAY -->
+          <div class="mb-5 p-3.5 rounded-xl bg-slate-950 border border-slate-800/80 text-center shadow-inner">
+            <div class="text-[11px] font-medium text-slate-400 mb-1 uppercase tracking-wider">Persamaan Kuadrat Saat Ini</div>
+            <div id="katexEquationDisplay" class="text-lg sm:text-xl font-semibold text-white py-1 overflow-x-auto min-h-[38px] flex items-center justify-center">
+              ax^2 + bx + c = 0
+            </div>
+          </div>
+
+          <!-- SLIDERS CONTAINER -->
+          <div class="space-y-4">
+            
+            <!-- PARAMETER a -->
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="sliderA" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                  <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs border border-emerald-500/30">a</span>
+                  Koefisien x²
+                  <span class="text-[10px] text-slate-500 font-normal">(a ≠ 0, kurvatur)</span>
+                </label>
+                <div class="flex items-center gap-1">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="a" data-step="-0.5">-</button>
+                  <input type="number" id="numA" step="0.5" min="-5" max="5" value="1" class="w-14 px-1.5 py-0.5 text-center text-xs font-mono font-bold bg-slate-900 border border-slate-700 rounded text-emerald-400 focus:outline-none focus:border-brand-500">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="a" data-step="0.5">+</button>
+                </div>
+              </div>
+              <input type="range" id="sliderA" min="-5" max="5" step="0.5" value="1" class="w-full">
+              <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+                <span>-5.0</span>
+                <span class="text-amber-400/80 text-[10px] font-sans font-medium">0 dilewati otomatis</span>
+                <span>+5.0</span>
+              </div>
+            </div>
+
+            <!-- PARAMETER b -->
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="sliderB" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                  <span class="px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono text-xs border border-sky-500/30">b</span>
+                  Koefisien x
+                  <span class="text-[10px] text-slate-500 font-normal">(geser sumbu simetri)</span>
+                </label>
+                <div class="flex items-center gap-1">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="b" data-step="-1">-</button>
+                  <input type="number" id="numB" step="1" min="-10" max="10" value="-1" class="w-14 px-1.5 py-0.5 text-center text-xs font-mono font-bold bg-slate-900 border border-slate-700 rounded text-sky-400 focus:outline-none focus:border-brand-500">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="b" data-step="1">+</button>
+                </div>
+              </div>
+              <input type="range" id="sliderB" min="-10" max="10" step="1" value="-1" class="w-full">
+              <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+                <span>-10</span>
+                <span>0</span>
+                <span>+10</span>
+              </div>
+            </div>
+
+            <!-- PARAMETER c -->
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="sliderC" class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                  <span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-xs border border-purple-500/30">c</span>
+                  Konstanta c
+                  <span class="text-[10px] text-slate-500 font-normal">(titik potong sumbu-Y)</span>
+                </label>
+                <div class="flex items-center gap-1">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="c" data-step="-1">-</button>
+                  <input type="number" id="numC" step="1" min="-10" max="10" value="-6" class="w-14 px-1.5 py-0.5 text-center text-xs font-mono font-bold bg-slate-900 border border-slate-700 rounded text-purple-400 focus:outline-none focus:border-brand-500">
+                  <button type="button" class="btn-step px-1.5 py-0.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700" data-target="c" data-step="1">+</button>
+                </div>
+              </div>
+              <input type="range" id="sliderC" min="-10" max="10" step="1" value="-6" class="w-full">
+              <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+                <span>-10</span>
+                <span>0</span>
+                <span>+10</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUICK PRESETS SECTION -->
+          <div class="mt-5 pt-4 border-t border-slate-800">
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Tombol Preset Cepat (Quick Presets)
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-emerald-950/60 border border-slate-700 hover:border-emerald-600/60 text-slate-200 hover:text-emerald-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="1" data-b="-1" data-c="-6" title="D = 25 > 0, akar x=3 dan x=-2">
+                <span class="font-bold text-emerald-400 text-[11px]">D &gt; 0</span>
+                <span class="text-[10px] text-slate-400">Dua Akar Real</span>
+              </button>
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-amber-950/60 border border-slate-700 hover:border-amber-600/60 text-slate-200 hover:text-amber-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="1" data-b="-4" data-c="4" title="D = 0, akar kembar x=2">
+                <span class="font-bold text-amber-400 text-[11px]">D = 0</span>
+                <span class="text-[10px] text-slate-400">Akar Kembar</span>
+              </button>
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-rose-950/60 border border-slate-700 hover:border-rose-600/60 text-slate-200 hover:text-rose-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="1" data-b="2" data-c="5" title="D = -16 < 0, akar imajiner">
+                <span class="font-bold text-rose-400 text-[11px]">D &lt; 0</span>
+                <span class="text-[10px] text-slate-400">Akar Imajiner</span>
+              </button>
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-sky-950/60 border border-slate-700 hover:border-sky-600/60 text-slate-200 hover:text-sky-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="1" data-b="0" data-c="-4" title="b = 0, akar simetris x = ±2">
+                <span class="font-bold text-sky-400 text-[11px]">b = 0</span>
+                <span class="text-[10px] text-slate-400">Akar Simetris</span>
+              </button>
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-indigo-950/60 border border-slate-700 hover:border-indigo-600/60 text-slate-200 hover:text-indigo-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="-1" data-b="2" data-c="3" title="a < 0, kurva membuka ke bawah">
+                <span class="font-bold text-indigo-400 text-[11px]">a &lt; 0</span>
+                <span class="text-[10px] text-slate-400">Terbuka Bawah</span>
+              </button>
+              <button class="btn-preset px-2.5 py-2 rounded-lg bg-slate-800/80 hover:bg-teal-950/60 border border-slate-700 hover:border-teal-600/60 text-slate-200 hover:text-teal-300 text-left transition font-medium active:scale-95 flex flex-col justify-between"
+                      data-a="1" data-b="-2" data-c="4" title="a > 0 dan D < 0, grafik selalu di atas sumbu X">
+                <span class="font-bold text-teal-400 text-[11px]">Definit (+)</span>
+                <span class="text-[10px] text-slate-400">Selalu Positif</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 2: DISCRIMINANT CALCULATIONS & ROOT STATUS BADGE -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+              Kalkulasi Rinci Diskriminan (D = b² - 4ac)
+            </h3>
+            <span class="text-xs text-slate-400 font-mono">Real-time</span>
+          </div>
+
+          <!-- D STATUS BADGE -->
+          <div id="badgeRootStatus" class="p-3.5 rounded-xl border flex items-start gap-3 transition-all duration-300 bg-emerald-950/40 border-emerald-500/40 text-emerald-200">
+            <div id="iconRootStatus" class="p-2 rounded-lg bg-emerald-500/20 text-emerald-300 shrink-0 mt-0.5">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="titleRootStatus" class="font-bold text-sm">D &gt; 0 : Dua Akar Real Berbeda</span>
+                <span id="badgeDValue" class="text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-emerald-500/30 text-emerald-100">D = 25</span>
+              </div>
+              <p id="descRootStatus" class="text-xs text-emerald-300/90 mt-1 leading-relaxed">
+                Parabola memotong sumbu-X di 2 titik koordinat yang berbeda (x₁ ≠ x₂).
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP-BY-STEP CALCULATION CONTAINER -->
+          <div class="mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800/80 font-mono text-xs space-y-2">
+            <div class="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800/80 pb-1.5 flex items-center justify-between">
+              <span>Langkah Penjabaran Angka</span>
+              <span class="text-[10px] text-brand-400 font-normal">Substitusi Eksak</span>
+            </div>
+            
+            <div class="flex items-center justify-between py-1 text-slate-300">
+              <span class="text-slate-400 font-sans">Rumus Umum:</span>
+              <div id="katexDiscStep1" class="font-semibold text-brand-300">D = b^2 - 4ac</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1 text-slate-300">
+              <span class="text-slate-400 font-sans">Substitusi Nilai:</span>
+              <div id="katexDiscStep2" class="font-semibold text-white">D = (b)^2 - 4(a)(c)</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1 text-slate-300">
+              <span class="text-slate-400 font-sans">Perkalian:</span>
+              <div id="katexDiscStep3" class="font-semibold text-slate-200">D = b^2 - 4ac</div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-sm font-bold">
+              <span class="text-slate-200 font-sans">Hasil Akhir D:</span>
+              <div id="katexDiscResult" class="text-emerald-400 text-base">D = 25</div>
+            </div>
+          </div>
+
+          <!-- ROOTS VALUE DISPLAY -->
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div class="text-[10px] uppercase font-semibold text-slate-400 mb-1">Akar Pertama (x₁)</div>
+              <div id="katexRootX1" class="text-sm font-mono font-bold text-emerald-400 min-h-[24px]">x₁ = 3.00</div>
+              <div id="approxRootX1" class="text-[11px] text-slate-500 font-mono mt-0.5">Desimal: 3.00</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div class="text-[10px] uppercase font-semibold text-slate-400 mb-1">Akar Kedua (x₂)</div>
+              <div id="katexRootX2" class="text-sm font-mono font-bold text-emerald-400 min-h-[24px]">x₂ = -2.00</div>
+              <div id="approxRootX2" class="text-[11px] text-slate-500 font-mono mt-0.5">Desimal: -2.00</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 3: VIETA'S THEOREM & PROPERTIES -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              Teorema Vieta & Titik Karakteristik
+            </h3>
+            <span class="text-xs text-brand-300 font-mono font-semibold">Fase E</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- SUM OF ROOTS -->
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-semibold text-slate-200">Jumlah Akar (x₁ + x₂)</div>
+                <div class="text-[11px] text-slate-400">Rumus Vieta: <span class="font-mono text-cyan-300">-b / a</span></div>
+              </div>
+              <div id="katexVietaSum" class="text-xs sm:text-sm font-mono font-bold text-cyan-400">
+                x₁ + x₂ = 1
+              </div>
+            </div>
+
+            <!-- PRODUCT OF ROOTS -->
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-semibold text-slate-200">Hasil Kali Akar (x₁ · x₂)</div>
+                <div class="text-[11px] text-slate-400">Rumus Vieta: <span class="font-mono text-purple-300">c / a</span></div>
+              </div>
+              <div id="katexVietaProduct" class="text-xs sm:text-sm font-mono font-bold text-purple-400">
+                x₁ · x₂ = -6
+              </div>
+            </div>
+
+            <!-- VERTEX & AXIS OF SYMMETRY -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 mb-0.5">Sumbu Simetri (x = -b/2a)</div>
+                <div id="valSymmetryAxis" class="text-sm font-mono font-bold text-cyan-300">x = 0.50</div>
+                <div class="text-[10px] text-slate-500 mt-0.5">Membagi parabola tepat di tengah</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 mb-0.5">Titik Puncak (xp, yp)</div>
+                <div id="valVertexPoint" class="text-sm font-mono font-bold text-amber-300">(0.50, -6.25)</div>
+                <div id="valVertexType" class="text-[10px] text-slate-500 mt-0.5">Titik Balik Minimum (a &gt; 0)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 4: AI VOICE NARRATION BOX (TRANSCRIPT) -->
+        <section id="boxVoiceTranscript" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+              Transkrip Narasi Pembelajaran Audio
+            </h3>
+            <span id="voiceStatusBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">
+              Siap Diputar
+            </span>
+          </div>
+
+          <p id="narrationText" class="text-xs sm:text-sm text-slate-300 leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800/80 font-sans min-h-[90px]">
+            Memuat analisis pembelajaran persamaan kuadrat...
+          </p>
+
+          <div class="mt-3 flex items-center justify-between text-xs">
+            <span class="text-slate-500 text-[11px]">Ditenagai oleh Web Speech Synthesis API bawaan</span>
+            <button id="btnCopyNarration" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center gap-1 active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              </svg>
+              Salin Teks
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: INTERACTIVE CANVAS VISUALIZATION & MATRIX -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- CARD: CANVAS 2D INTERACTIVE GRAPH -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-2xl relative overflow-hidden backdrop-blur-sm flex flex-col">
+          
+          <!-- CANVAS TOOLBAR -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-brand-400 animate-pulse"></span>
+                Visualisasi Grafik Parabola Kartesius 2D
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">Arahkan kursor atau sentuh layar untuk pelacak koordinat kurva dinamis.</p>
+            </div>
+
+            <!-- CANVAS CONTROLS -->
+            <div class="flex items-center gap-1.5">
+              <button id="btnZoomIn" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="Perbesar (Zoom In)">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+              <button id="btnZoomOut" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="Perkecil (Zoom Out)">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+              </button>
+              <button id="btnAutoFit" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 border border-slate-700 transition flex items-center gap-1" title="Paskan Skala Otomatis">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+                Auto-Fit
+              </button>
+              <button id="btnToggleGrid" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 border border-slate-700 transition" title="Tampilkan/Sembunyikan Grid">
+                Grid: On
+              </button>
+            </div>
+          </div>
+
+          <!-- CANVAS CONTAINER -->
+          <div class="relative w-full h-[380px] sm:h-[460px] lg:h-[500px] bg-slate-950 rounded-xl overflow-hidden border border-slate-800/80 shadow-inner group">
+            <canvas id="parabolaCanvas" class="w-full h-full cursor-crosshair block"></canvas>
+
+            <!-- FLOATING INSPECTOR TOOLTIP -->
+            <div id="canvasTooltip" class="absolute pointer-events-none opacity-0 transition-opacity duration-150 bg-slate-900/95 text-white border border-brand-500/50 rounded-lg p-2 text-xs shadow-2xl backdrop-blur-md z-30 font-mono">
+              <div id="tooltipTitle" class="font-bold text-brand-300 text-[11px] mb-0.5">Koordinat</div>
+              <div id="tooltipCoords" class="text-slate-200">(x, y)</div>
+            </div>
+
+            <!-- WATERMARK / BADGE INFO -->
+            <div class="absolute bottom-3 right-3 pointer-events-none bg-slate-900/80 border border-slate-800 rounded-md px-2 py-1 text-[10px] font-mono text-slate-400 backdrop-blur-sm">
+              f(x) = ax² + bx + c
+            </div>
+          </div>
+
+          <!-- CANVAS LEGEND BADGES -->
+          <div class="mt-4 pt-3 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50"></span>
+              <span class="text-slate-300">Akar Real (x₁, x₂)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+              <span class="w-3 h-3 rounded-full bg-purple-400 shadow-sm shadow-purple-400/50"></span>
+              <span class="text-slate-300">Potong Y (0, c)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+              <span class="w-3 h-3 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50"></span>
+              <span class="text-slate-300">Titik Puncak (xp, yp)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+              <span class="w-3.5 h-0.5 border-t-2 border-dashed border-cyan-400"></span>
+              <span class="text-slate-300">Sumbu Simetri</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD: PEDAGOGICAL MATRIX 6 KONDISI (a vs D) -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Matriks Geometris Fase E: Pengaruh Tanda a dan D
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">Sel yang sesuai dengan parameter saat ini ditandai dengan sorotan aktif.</p>
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30 font-medium">Standar SMA</span>
+          </div>
+
+          <!-- 6-CELL INTERACTIVE MATRIX -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            
+            <!-- ROW 1: a > 0 -->
+            <div id="matrixCell_pos_gt" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &gt; 0, D &gt; 0</span>
+                <span class="text-emerald-400">2 Akar</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke atas</strong> dan memotong sumbu-X di dua titik berbeda.
+              </p>
+            </div>
+
+            <div id="matrixCell_pos_eq" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &gt; 0, D = 0</span>
+                <span class="text-amber-400">1 Akar (Kembar)</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke atas</strong> dan menyinggung sumbu-X tepat di titik puncak.
+              </p>
+            </div>
+
+            <div id="matrixCell_pos_lt" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &gt; 0, D &lt; 0</span>
+                <span class="text-teal-400">Definit (+)</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke atas</strong> dan melayang di atas sumbu-X (seluruh f(x) &gt; 0).
+              </p>
+            </div>
+
+            <!-- ROW 2: a < 0 -->
+            <div id="matrixCell_neg_gt" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &lt; 0, D &gt; 0</span>
+                <span class="text-emerald-400">2 Akar</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke bawah</strong> dan memotong sumbu-X di dua titik berbeda.
+              </p>
+            </div>
+
+            <div id="matrixCell_neg_eq" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &lt; 0, D = 0</span>
+                <span class="text-amber-400">1 Akar (Kembar)</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke bawah</strong> dan menyinggung sumbu-X dari bawah di titik puncak.
+              </p>
+            </div>
+
+            <div id="matrixCell_neg_lt" class="p-3 rounded-xl border border-slate-800 bg-slate-950 transition-all duration-300">
+              <div class="flex items-center justify-between font-mono font-bold text-slate-200 mb-1">
+                <span>a &lt; 0, D &lt; 0</span>
+                <span class="text-rose-400">Definit (-)</span>
+              </div>
+              <p class="text-slate-400 text-[11px] leading-relaxed">
+                Parabola terbuka <strong class="text-slate-200">ke bawah</strong> dan berada seluruhnya di bawah sumbu-X (f(x) &lt; 0).
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- CARD: INTERACTIVE CHALLENGE / GAMIFICATION MINI-QUIZ -->
+        <section class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl relative overflow-hidden backdrop-blur-sm">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                Tantangan Eksplorasi Mandiri Siswa
+              </h3>
+              <p class="text-xs text-slate-400 mt-0.5">Ubah slider koefisien hingga memenuhi kriteria misi di bawah ini!</p>
+            </div>
+            <span id="challengeScore" class="text-xs font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+              Misi Aktif
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            
+            <!-- CHALLENGE 1 -->
+            <div id="missionCard1" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition">
+              <div class="flex items-start gap-2.5">
+                <span id="missionBadge1" class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5">1</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-200">Misi Menyinggung Sumbu-X</h4>
+                  <p class="text-[11px] text-slate-400">Atur slider koefisien agar nilai diskriminan <span class="font-mono text-amber-400">D = 0</span>.</p>
+                </div>
+              </div>
+              <button class="btn-hint px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700 shrink-0" data-hint="Contoh: a=1, b=-2, c=1 atau a=1, b=-4, c=4">
+                Petunjuk
+              </button>
+            </div>
+
+            <!-- CHALLENGE 2 -->
+            <div id="missionCard2" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition">
+              <div class="flex items-start gap-2.5">
+                <span id="missionBadge2" class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5">2</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-200">Misi Fungsi Definit Positif</h4>
+                  <p class="text-[11px] text-slate-400">Atur nilai agar grafik terbuka ke atas dan melayang di atas sumbu-X (<span class="font-mono text-emerald-400">a &gt; 0</span> dan <span class="font-mono text-rose-400">D &lt; 0</span>).</p>
+                </div>
+              </div>
+              <button class="btn-hint px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700 shrink-0" data-hint="Contoh: a=1, b=2, c=5 atau a=1, b=-2, c=4">
+                Petunjuk
+              </button>
+            </div>
+
+            <!-- CHALLENGE 3 -->
+            <div id="missionCard3" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition">
+              <div class="flex items-start gap-2.5">
+                <span id="missionBadge3" class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5">3</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-200">Misi Simetri Sempurna Sumbu-Y</h4>
+                  <p class="text-[11px] text-slate-400">Atur agar sumbu simetri tepat berada di garis <span class="font-mono text-cyan-400">x = 0</span> dan memiliki 2 akar real berbeda.</p>
+                </div>
+              </div>
+              <button class="btn-hint px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700 shrink-0" data-hint="Atur b = 0, a = 1, dan c < 0 (misal c = -4)">
+                Petunjuk
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- CONCEPT PEDAGOGICAL ACCORDION / NOTES -->
+    <section class="mt-8 bg-slate-900/80 rounded-2xl border border-slate-800 p-6 shadow-xl">
+      <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+        <svg class="w-5 h-5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        Mengapa Diskriminan (D = b² - 4ac) Menentukan Jenis Akar?
+      </h3>
+      <div class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3 mt-3">
+        <p>
+          Berdasarkan <strong>Rumus Kuadrat (Rumus ABC)</strong>:
+          <span class="inline-block px-2 py-0.5 bg-slate-950 font-mono text-brand-300 rounded border border-slate-800">
+            x = (-b ± √D) / (2a)
+          </span>,
+          suku di dalam tanda akar kuadrat adalah diskriminan <span class="font-mono text-brand-300">D = b² - 4ac</span>.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800">
+            <h4 class="font-bold text-emerald-400 mb-1">1. Jika D &gt; 0</h4>
+            <p class="text-xs text-slate-400">
+              Nilai <span class="font-mono text-slate-200">√D</span> menghasilkan bilangan real positif. Operasi tanda <span class="font-mono text-slate-200">±</span> menghasilkan dua nilai berbeda: <span class="font-mono text-slate-200">x₁ = (-b + √D)/2a</span> dan <span class="font-mono text-slate-200">x₂ = (-b - √D)/2a</span>. Parabola memotong sumbu-X di dua titik.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800">
+            <h4 class="font-bold text-amber-400 mb-1">2. Jika D = 0</h4>
+            <p class="text-xs text-slate-400">
+              Nilai <span class="font-mono text-slate-200">√0 = 0</span>. Operasi <span class="font-mono text-slate-200">-b ± 0</span> sama dengan <span class="font-mono text-slate-200">-b</span>. Akibatnya, kedua akar berhimpit: <span class="font-mono text-slate-200">x₁ = x₂ = -b/(2a)</span>. Parabola menyinggung sumbu-X di tepat 1 titik yang juga merupakan titik puncaknya.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800">
+            <h4 class="font-bold text-rose-400 mb-1">3. Jika D &lt; 0</h4>
+            <p class="text-xs text-slate-400">
+              Akar kuadrat dari bilangan negatif (<span class="font-mono text-slate-200">√D</span> dengan D &lt; 0) tidak terdefinisi pada himpunan bilangan real <span class="font-mono text-slate-200">ℝ</span>, melainkan menghasilkan bilangan imajiner <span class="font-mono text-slate-200">i√|D|</span>. Oleh karena itu, kurva tidak pernah menyentuh maupun memotong sumbu-X.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800/80 py-5 mt-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>© 2026 Lab Visual Matematika SMA Fase E • Kurikulum Merdeka</p>
+      <div class="flex items-center gap-4 text-slate-400">
+        <span>KaTeX • Tailwind CSS • HTML5 Canvas • Web Speech API</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT APPLICATION CODE -->
+  <script>
+    /* =========================================================================
+       LAB VISUAL INTERAKTIF DISKRIMINAN & PERSAMAAN KUADRAT
+       Fase E Matematika SMA • Vanilla JavaScript (Zero Build Step)
+       ========================================================================= */
+
+    // STATE VARIABLES
+    const state = {
+      a: 1.0,
+      b: -1.0,
+      c: -6.0,
+      canvas: {
+        zoom: 1.0,
+        showGrid: true,
+        hoverPoint: null,
+        isDragging: false,
+        dragStartX: 0,
+        dragStartY: 0,
+        panOffsetX: 0,
+        panOffsetY: 0
+      },
+      speech: {
+        synth: window.speechSynthesis,
+        isSpeaking: false,
+        utterance: null
+      }
+    };
+
+    // DOM ELEMENTS CACHE
+    const DOM = {
+      sliderA: document.getElementById('sliderA'),
+      sliderB: document.getElementById('sliderB'),
+      sliderC: document.getElementById('sliderC'),
+      numA: document.getElementById('numA'),
+      numB: document.getElementById('numB'),
+      numC: document.getElementById('numC'),
+      katexEquationDisplay: document.getElementById('katexEquationDisplay'),
+      katexDiscStep1: document.getElementById('katexDiscStep1'),
+      katexDiscStep2: document.getElementById('katexDiscStep2'),
+      katexDiscStep3: document.getElementById('katexDiscStep3'),
+      katexDiscResult: document.getElementById('katexDiscResult'),
+      badgeRootStatus: document.getElementById('badgeRootStatus'),
+      iconRootStatus: document.getElementById('iconRootStatus'),
+      titleRootStatus: document.getElementById('titleRootStatus'),
+      badgeDValue: document.getElementById('badgeDValue'),
+      descRootStatus: document.getElementById('descRootStatus'),
+      katexRootX1: document.getElementById('katexRootX1'),
+      katexRootX2: document.getElementById('katexRootX2'),
+      approxRootX1: document.getElementById('approxRootX1'),
+      approxRootX2: document.getElementById('approxRootX2'),
+      katexVietaSum: document.getElementById('katexVietaSum'),
+      katexVietaProduct: document.getElementById('katexVietaProduct'),
+      valSymmetryAxis: document.getElementById('valSymmetryAxis'),
+      valVertexPoint: document.getElementById('valVertexPoint'),
+      valVertexType: document.getElementById('valVertexType'),
+      btnVoiceNarration: document.getElementById('btnVoiceNarration'),
+      labelVoice: document.getElementById('labelVoice'),
+      iconSpeaker: document.getElementById('iconSpeaker'),
+      audioWaveBars: document.getElementById('audioWaveBars'),
+      voiceStatusBadge: document.getElementById('voiceStatusBadge'),
+      narrationText: document.getElementById('narrationText'),
+      btnCopyNarration: document.getElementById('btnCopyNarration'),
+      btnDownloadPNG: document.getElementById('btnDownloadPNG'),
+      btnZoomIn: document.getElementById('btnZoomIn'),
+      btnZoomOut: document.getElementById('btnZoomOut'),
+      btnAutoFit: document.getElementById('btnAutoFit'),
+      btnToggleGrid: document.getElementById('btnToggleGrid'),
+      btnResetDefault: document.getElementById('btnResetDefault'),
+      canvas: document.getElementById('parabolaCanvas'),
+      tooltip: document.getElementById('canvasTooltip'),
+      tooltipTitle: document.getElementById('tooltipTitle'),
+      tooltipCoords: document.getElementById('tooltipCoords')
+    };
+
+    // MATHEMATICAL UTILITY FUNCTIONS
+    function gcd(x, y) {
+      x = Math.round(Math.abs(x));
+      y = Math.round(Math.abs(y));
+      while (y) {
+        const t = y;
+        y = x % y;
+        x = t;
+      }
+      return x || 1;
+    }
+
+    function simplifyFraction(num, den) {
+      num = Math.round(num);
+      den = Math.round(den);
+      if (den === 0) return 'undefined';
+      if (num === 0) return '0';
+      if (den < 0) { num = -num; den = -den; }
+      const g = gcd(num, den);
+      num /= g;
+      den /= g;
+      if (den === 1) return `${num}`;
+      return `${num}/${den}`;
+    }
+
+    function simplifyFractionLatex(num, den) {
+      num = Math.round(num);
+      den = Math.round(den);
+      if (den === 0) return '\\text{tidak terdefinisi}';
+      if (num === 0) return '0';
+      if (den < 0) { num = -num; den = -den; }
+      const g = gcd(num, den);
+      num /= g;
+      den /= g;
+      if (den === 1) return `${num}`;
+      return `\\frac{${num}}{${den}}`;
+    }
+
+    function simplifySquareRoot(n) {
+      n = Math.abs(Math.round(n));
+      if (n === 0) return { outside: 0, inside: 0 };
+      let outside = 1;
+      let inside = n;
+      for (let i = Math.floor(Math.sqrt(n)); i >= 2; i--) {
+        if (n % (i * i) === 0) {
+          outside = i;
+          inside = n / (i * i);
+          break;
+        }
+      }
+      return { outside, inside };
+    }
+
+    // SAFE KATEX RENDER HELPER
+    function renderLatex(element, latexString, displayMode = false) {
+      if (!element) return;
+      if (window.katex && typeof window.katex.render === 'function') {
+        try {
+          window.katex.render(latexString, element, {
+            throwOnError: false,
+            displayMode: displayMode
+          });
+        } catch (e) {
+          element.textContent = latexString;
+        }
+      } else {
+        element.textContent = latexString;
+      }
+    }
+
+    // FORMAT QUADRATIC EQUATION STRING
+    function formatEquationLatex(a, b, c) {
+      let terms = [];
+      
+      // a term
+      if (a === 1) terms.push("x^2");
+      else if (a === -1) terms.push("-x^2");
+      else terms.push(`${a}x^2`);
+
+      // b term
+      if (b !== 0) {
+        let sign = b > 0 ? (terms.length > 0 ? "+ " : "") : "- ";
+        let absB = Math.abs(b);
+        let bPart = absB === 1 ? "x" : `${absB}x`;
+        terms.push(`${sign}${bPart}`);
+      }
+
+      // c term
+      if (c !== 0) {
+        let sign = c > 0 ? (terms.length > 0 ? "+ " : "") : "- ";
+        terms.push(`${sign}${Math.abs(c)}`);
+      } else if (terms.length === 1 && b === 0) {
+        terms.push("+ 0");
+      }
+
+      return terms.join(" ") + " = 0";
+    }
+
+    // MAIN RECALCULATION & UI UPDATE
+    function updateAll() {
+      const a = state.a;
+      const b = state.b;
+      const c = state.c;
+
+      // 1. Render General Equation
+      const eqLatex = formatEquationLatex(a, b, c);
+      renderLatex(DOM.katexEquationDisplay, eqLatex, true);
+
+      // 2. Discriminant Calculation: D = b² - 4ac
+      // Since a is multiple of 0.5 and b,c are integers, 4ac is integer, b² is integer, D is integer!
+      const fourAC = Math.round(4 * a * c);
+      const bSq = Math.round(b * b);
+      const D = bSq - fourAC;
+
+      renderLatex(DOM.katexDiscStep1, "D = b^2 - 4ac");
+      const bFormatted = b < 0 ? `(${b})` : `${b}`;
+      const aFormatted = a < 0 ? `(${a})` : `${a}`;
+      const cFormatted = c < 0 ? `(${c})` : `${c}`;
+      renderLatex(DOM.katexDiscStep2, `D = ${bFormatted}^2 - 4 \\cdot ${aFormatted} \\cdot ${cFormatted}`);
+      
+      const step3Latex = fourAC < 0 
+        ? `D = ${bSq} - (${fourAC}) = ${bSq} + ${Math.abs(fourAC)}`
+        : `D = ${bSq} - ${fourAC}`;
+      renderLatex(DOM.katexDiscStep3, step3Latex);
+      renderLatex(DOM.katexDiscResult, `D = ${D}`);
+
+      // 3. Status Badge and Root Classification
+      DOM.badgeDValue.textContent = `D = ${D}`;
+      
+      let rootType = '';
+      let narrationStatus = '';
+
+      if (D > 0) {
+        rootType = 'gt';
+        DOM.badgeRootStatus.className = 'p-3.5 rounded-xl border flex items-start gap-3 transition-all duration-300 bg-emerald-950/40 border-emerald-500/40 text-emerald-200';
+        DOM.iconRootStatus.className = 'p-2 rounded-lg bg-emerald-500/20 text-emerald-300 shrink-0 mt-0.5';
+        DOM.badgeDValue.className = 'text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-emerald-500/30 text-emerald-100';
+        DOM.titleRootStatus.textContent = 'D > 0 : Dua Akar Real Berbeda';
+        DOM.descRootStatus.textContent = 'Parabola memotong sumbu-X di dua titik koordinat yang berbeda (x₁ ≠ x₂).';
+        narrationStatus = 'Karena nilai diskriminan D lebih besar dari nol, persamaan kuadrat ini memiliki dua akar real yang berbeda, dan grafiknya memotong sumbu X di dua titik.';
+      } else if (D === 0) {
+        rootType = 'eq';
+        DOM.badgeRootStatus.className = 'p-3.5 rounded-xl border flex items-start gap-3 transition-all duration-300 bg-amber-950/40 border-amber-500/40 text-amber-200';
+        DOM.iconRootStatus.className = 'p-2 rounded-lg bg-amber-500/20 text-amber-300 shrink-0 mt-0.5';
+        DOM.badgeDValue.className = 'text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-amber-500/30 text-amber-100';
+        DOM.titleRootStatus.textContent = 'D = 0 : Satu Akar Real Kembar';
+        DOM.descRootStatus.textContent = 'Parabola menyinggung sumbu-X tepat di satu titik (x₁ = x₂), yang berhimpit dengan titik puncak.';
+        narrationStatus = 'Karena nilai diskriminan D sama dengan nol, persamaan ini memiliki satu akar real kembar. Parabola menyinggung sumbu X di tepat satu titik yang merupakan titik puncaknya.';
+      } else {
+        rootType = 'lt';
+        DOM.badgeRootStatus.className = 'p-3.5 rounded-xl border flex items-start gap-3 transition-all duration-300 bg-rose-950/40 border-rose-500/40 text-rose-200';
+        DOM.iconRootStatus.className = 'p-2 rounded-lg bg-rose-500/20 text-rose-300 shrink-0 mt-0.5';
+        DOM.badgeDValue.className = 'text-xs px-2 py-0.5 rounded-full font-mono font-bold bg-rose-500/30 text-rose-100';
+        DOM.titleRootStatus.textContent = 'D < 0 : Tidak Memiliki Akar Real (Imajiner)';
+        DOM.descRootStatus.textContent = 'Parabola melayang (tidak memotong atau menyinggung sumbu-X). Nilai kurva definit selalu positif atau negatif.';
+        narrationStatus = 'Karena nilai diskriminan D lebih kecil dari nol, persamaan ini tidak memiliki akar bilangan real, melainkan akar imajiner atau kompleks. Grafiknya tidak pernah memotong maupun menyinggung sumbu X.';
+      }
+
+      // 4. Roots Calculation
+      const twoA = Math.round(2 * a);
+      let x1Text = '', x2Text = '', x1Latex = '', x2Latex = '';
+      let x1Num = 0, x2Num = 0;
+
+      if (D > 0) {
+        const sqrtD = Math.sqrt(D);
+        x1Num = (-b + sqrtD) / (2 * a);
+        x2Num = (-b - sqrtD) / (2 * a);
+        
+        // Check if D is a perfect square
+        if (Number.isInteger(sqrtD)) {
+          const num1 = -b + sqrtD;
+          const num2 = -b - sqrtD;
+          x1Latex = `x_1 = ${simplifyFractionLatex(num1, twoA)}`;
+          x2Latex = `x_2 = ${simplifyFractionLatex(num2, twoA)}`;
+        } else {
+          const { outside, inside } = simplifySquareRoot(D);
+          const g = gcd(-b, gcd(outside, twoA));
+          let bSimp = -b / g;
+          let outSimp = outside / g;
+          let denSimp = twoA / g;
+          if (denSimp < 0) {
+            bSimp = -bSimp;
+            denSimp = -denSimp;
+          }
+          const sqrtPart = outSimp === 1 ? `\\sqrt{${inside}}` : `${outSimp}\\sqrt{${inside}}`;
+          if (denSimp === 1) {
+            x1Latex = `x_1 = ${bSimp} + ${sqrtPart}`;
+            x2Latex = `x_2 = ${bSimp} - ${sqrtPart}`;
+          } else {
+            x1Latex = `x_1 = \\frac{${bSimp} + ${sqrtPart}}{${denSimp}}`;
+            x2Latex = `x_2 = \\frac{${bSimp} - ${sqrtPart}}{${denSimp}}`;
+          }
+        }
+        x1Text = `Desimal: ${x1Num.toFixed(2)}`;
+        x2Text = `Desimal: ${x2Num.toFixed(2)}`;
+      } else if (D === 0) {
+        x1Num = -b / (2 * a);
+        x2Num = x1Num;
+        x1Latex = `x_1 = x_2 = ${simplifyFractionLatex(-b, twoA)}`;
+        x2Latex = x1Latex;
+        x1Text = `Desimal: ${x1Num.toFixed(2)} (Akar Kembar)`;
+        x2Text = `Desimal: ${x2Num.toFixed(2)} (Akar Kembar)`;
+      } else {
+        // D < 0
+        const absD = Math.abs(D);
+        const sqrtAbsD = Math.sqrt(absD);
+        const realPart = -b / (2 * a);
+        const imagPart = sqrtAbsD / Math.abs(2 * a);
+        
+        const { outside, inside } = simplifySquareRoot(absD);
+        const g = gcd(-b, gcd(outside, Math.abs(twoA)));
+        let bSimp = -b / g;
+        let outSimp = outside / g;
+        let denSimp = Math.abs(twoA) / g;
+        const sqrtPart = outSimp === 1 ? `i\\sqrt{${inside}}` : `${outSimp}i\\sqrt{${inside}}`;
+
+        if (denSimp === 1) {
+          x1Latex = `x_1 = ${bSimp} + ${sqrtPart}`;
+          x2Latex = `x_2 = ${bSimp} - ${sqrtPart}`;
+        } else {
+          x1Latex = `x_1 = \\frac{${bSimp} + ${sqrtPart}}{${denSimp}}`;
+          x2Latex = `x_2 = \\frac{${bSimp} - ${sqrtPart}}{${denSimp}}`;
+        }
+        x1Text = `Kompleks: ${realPart.toFixed(2)} + ${imagPart.toFixed(2)}i`;
+        x2Text = `Kompleks: ${realPart.toFixed(2)} - ${imagPart.toFixed(2)}i`;
+      }
+
+      renderLatex(DOM.katexRootX1, x1Latex);
+      renderLatex(DOM.katexRootX2, x2Latex);
+      DOM.approxRootX1.textContent = x1Text;
+      DOM.approxRootX2.textContent = x2Text;
+
+      // 5. Viète's Theorem
+      const sumVal = -b / a;
+      const sumFrac = simplifyFractionLatex(-b * 2, a * 2);
+      renderLatex(DOM.katexVietaSum, `x_1 + x_2 = -\\frac{b}{a} = ${sumFrac} \\approx ${sumVal.toFixed(2)}`);
+
+      const prodVal = c / a;
+      const prodFrac = simplifyFractionLatex(c * 2, a * 2);
+      renderLatex(DOM.katexVietaProduct, `x_1 \\cdot x_2 = \\frac{c}{a} = ${prodFrac} \\approx ${prodVal.toFixed(2)}`);
+
+      // 6. Sumbu Simetri & Titik Puncak
+      const xp = -b / (2 * a);
+      const yp = -D / (4 * a);
+      const xpFrac = simplifyFraction(-b, twoA);
+      const ypFrac = simplifyFraction(-D, Math.round(4 * a));
+
+      DOM.valSymmetryAxis.textContent = `x = ${xp.toFixed(2)} (${xpFrac})`;
+      DOM.valVertexPoint.textContent = `(${xp.toFixed(2)}, ${yp.toFixed(2)})`;
+      
+      const isOpenUp = a > 0;
+      DOM.valVertexType.textContent = isOpenUp
+        ? "Titik Balik Minimum (a > 0, kurva membuka ke atas)"
+        : "Titik Balik Maksimum (a < 0, kurva membuka ke bawah)";
+
+      // 7. Update Matrix Highlight
+      const activeCellId = `matrixCell_${isOpenUp ? 'pos' : 'neg'}_${rootType}`;
+      document.querySelectorAll('[id^="matrixCell_"]').forEach(cell => {
+        if (cell.id === activeCellId) {
+          cell.className = 'p-3 rounded-xl border-2 border-brand-400 bg-brand-950/50 shadow-lg shadow-brand-500/20 ring-1 ring-brand-400/50 transition-all duration-300';
+        } else {
+          cell.className = 'p-3 rounded-xl border border-slate-800 bg-slate-950 opacity-60 hover:opacity-90 transition-all duration-300';
+        }
+      });
+
+      // 8. Update Narration Text
+      const spokenEq = `${a} x kuadrat ${b >= 0 ? 'ditambah ' + b : 'dikurang ' + Math.abs(b)} x ${c >= 0 ? 'ditambah ' + c : 'dikurang ' + Math.abs(c)} sama dengan nol`;
+      const narrationHtml = `
+        <strong>Analisis Persamaan:</strong> $f(x) = ${a}x^2 ${b >= 0 ? '+' + b : b}x ${c >= 0 ? '+' + c : c} = 0$.<br>
+        Koefisien <strong>a = ${a}</strong> bernilai ${isOpenUp ? 'positif sehingga parabola terbuka ke atas dengan titik minimum' : 'negatif sehingga parabola terbuka ke bawah dengan titik maksimum'}.<br>
+        Nilai diskriminan dihitung: <strong>D = b² - 4ac = ${D}</strong>. ${narrationStatus}<br>
+        Titik puncak berada pada koordinat <strong>(${xp.toFixed(2)}, ${yp.toFixed(2)})</strong> dengan sumbu simetri <strong>x = ${xp.toFixed(2)}</strong>.
+        Berdasarkan Teorema Vieta, jumlah akar adalah <strong>${sumVal.toFixed(2)}</strong> dan hasil kali akar adalah <strong>${prodVal.toFixed(2)}</strong>.
+      `;
+      DOM.narrationText.innerHTML = narrationHtml;
+
+      // 9. Check Challenges
+      checkChallenges(D, a, b, c, xp);
+
+      // 10. Redraw Canvas
+      drawParabolaCanvas();
+    }
+
+    // CHALLENGES CHECKER
+    function checkChallenges(D, a, b, c, xp) {
+      // Challenge 1: D = 0
+      const c1Pass = (D === 0);
+      const b1 = document.getElementById('missionBadge1');
+      const card1 = document.getElementById('missionCard1');
+      if (c1Pass) {
+        b1.className = 'w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0 mt-0.5';
+        b1.innerHTML = '✓';
+        card1.className = 'p-3.5 rounded-xl border border-emerald-500/40 bg-emerald-950/20 flex items-center justify-between gap-3 transition';
+      } else {
+        b1.className = 'w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5';
+        b1.textContent = '1';
+        card1.className = 'p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition';
+      }
+
+      // Challenge 2: Definit Positif (a > 0 & D < 0)
+      const c2Pass = (a > 0 && D < 0);
+      const b2 = document.getElementById('missionBadge2');
+      const card2 = document.getElementById('missionCard2');
+      if (c2Pass) {
+        b2.className = 'w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0 mt-0.5';
+        b2.innerHTML = '✓';
+        card2.className = 'p-3.5 rounded-xl border border-emerald-500/40 bg-emerald-950/20 flex items-center justify-between gap-3 transition';
+      } else {
+        b2.className = 'w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5';
+        b2.textContent = '2';
+        card2.className = 'p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition';
+      }
+
+      // Challenge 3: Sumbu simetri x = 0 (b = 0) and D > 0
+      const c3Pass = (b === 0 && D > 0);
+      const b3 = document.getElementById('missionBadge3');
+      const card3 = document.getElementById('missionCard3');
+      if (c3Pass) {
+        b3.className = 'w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0 mt-0.5';
+        b3.innerHTML = '✓';
+        card3.className = 'p-3.5 rounded-xl border border-emerald-500/40 bg-emerald-950/20 flex items-center justify-between gap-3 transition';
+      } else {
+        b3.className = 'w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-400 shrink-0 mt-0.5';
+        b3.textContent = '3';
+        card3.className = 'p-3.5 rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-between gap-3 transition';
+      }
+    }
+
+    /* =========================================================================
+       CANVAS 2D RENDERING ENGINE
+       ========================================================================= */
+    const canvas = DOM.canvas;
+    const ctx = canvas.getContext('2d');
+
+    // Auto-fit bounds calculation
+    function getViewportBounds() {
+      const a = state.a;
+      const b = state.b;
+      const c = state.c;
+      const D = Math.round(b * b - 4 * a * c);
+
+      const xp = -b / (2 * a);
+      const yp = -D / (4 * a);
+
+      let xMin = -8;
+      let xMax = 8;
+      let yMin = -8;
+      let yMax = 8;
+
+      if (D >= 0) {
+        const sqrtD = Math.sqrt(D);
+        const x1 = (-b + sqrtD) / (2 * a);
+        const x2 = (-b - sqrtD) / (2 * a);
+        xMin = Math.min(-6, x1 - 3, x2 - 3, xp - 3);
+        xMax = Math.max(6, x1 + 3, x2 + 3, xp + 3);
+      } else {
+        xMin = Math.min(-6, xp - 6);
+        xMax = Math.max(6, xp + 6);
+      }
+
+      yMin = Math.min(-6, yp - 3, c - 3);
+      yMax = Math.max(6, yp + 3, c + 3);
+
+      // Symmetrize around center of interest slightly
+      const xSpan = Math.max(14, (xMax - xMin));
+      const ySpan = Math.max(14, (yMax - yMin));
+
+      const zoom = state.canvas.zoom;
+      const finalXSpan = xSpan / zoom;
+      const finalYSpan = ySpan / zoom;
+
+      const centerX = xp + state.canvas.panOffsetX;
+      const centerY = (yp / 2) + state.canvas.panOffsetY;
+
+      return {
+        xMin: centerX - finalXSpan / 2,
+        xMax: centerX + finalXSpan / 2,
+        yMin: centerY - finalYSpan / 2,
+        yMax: centerY + finalYSpan / 2
+      };
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      drawParabolaCanvas();
+    }
+
+    function drawParabolaCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      if (width === 0 || height === 0) return;
+
+      const bounds = getViewportBounds();
+      const { xMin, xMax, yMin, yMax } = bounds;
+
+      // Coordinate transformers
+      function toScreenX(x) {
+        return ((x - xMin) / (xMax - xMin)) * width;
+      }
+      function toScreenY(y) {
+        return height - ((y - yMin) / (yMax - yMin)) * height;
+      }
+      function toMathX(px) {
+        return xMin + (px / width) * (xMax - xMin);
+      }
+      function toMathY(py) {
+        return yMin + ((height - py) / height) * (yMax - yMin);
+      }
+
+      // CLEAR BACKGROUND
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#020617"; // Slate-950
+      ctx.fillRect(0, 0, width, height);
+
+      // 1. DRAW GRID
+      if (state.canvas.showGrid) {
+        ctx.lineWidth = 1;
+        const xStep = calculateGridStep(xMax - xMin);
+        const yStep = calculateGridStep(yMax - yMin);
+
+        // Subgrid / Vertical lines
+        const firstX = Math.floor(xMin / xStep) * xStep;
+        for (let gx = firstX; gx <= xMax; gx += xStep) {
+          const sx = toScreenX(gx);
+          ctx.strokeStyle = Math.abs(gx) < 0.0001 ? "rgba(148, 163, 184, 0.45)" : "rgba(51, 65, 85, 0.35)";
+          ctx.beginPath();
+          ctx.moveTo(sx, 0);
+          ctx.lineTo(sx, height);
+          ctx.stroke();
+
+          // X scale numbers
+          if (Math.abs(gx) > 0.0001 && sx > 25 && sx < width - 25) {
+            ctx.fillStyle = "#64748b";
+            ctx.font = "10px monospace";
+            ctx.textAlign = "center";
+            const zeroY = Math.max(16, Math.min(height - 6, toScreenY(0) + 14));
+            ctx.fillText(Number(gx.toFixed(2)), sx, zeroY);
+          }
+        }
+
+        // Subgrid / Horizontal lines
+        const firstY = Math.floor(yMin / yStep) * yStep;
+        for (let gy = firstY; gy <= yMax; gy += yStep) {
+          const sy = toScreenY(gy);
+          ctx.strokeStyle = Math.abs(gy) < 0.0001 ? "rgba(148, 163, 184, 0.45)" : "rgba(51, 65, 85, 0.35)";
+          ctx.beginPath();
+          ctx.moveTo(0, sy);
+          ctx.lineTo(width, sy);
+          ctx.stroke();
+
+          // Y scale numbers
+          if (Math.abs(gy) > 0.0001 && sy > 15 && sy < height - 15) {
+            ctx.fillStyle = "#64748b";
+            ctx.font = "10px monospace";
+            ctx.textAlign = "right";
+            const zeroX = Math.max(22, Math.min(width - 8, toScreenX(0) - 6));
+            ctx.fillText(Number(gy.toFixed(2)), zeroX, sy + 3);
+          }
+        }
+      }
+
+      // 2. MAIN X & Y AXES
+      const originX = toScreenX(0);
+      const originY = toScreenY(0);
+
+      ctx.lineWidth = 1.8;
+      ctx.strokeStyle = "#94a3b8"; // Slate-400
+
+      // X Axis
+      ctx.beginPath();
+      ctx.moveTo(0, originY);
+      ctx.lineTo(width, originY);
+      ctx.stroke();
+
+      // Y Axis
+      ctx.beginPath();
+      ctx.moveTo(originX, 0);
+      ctx.lineTo(originX, height);
+      ctx.stroke();
+
+      // Axis Arrowheads & Labels
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "bold 11px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText("X", width - 8, originY - 8 > 15 ? originY - 8 : originY + 16);
+      ctx.textAlign = "left";
+      ctx.fillText("Y", originX + 8 < width - 15 ? originX + 8 : originX - 18, 16);
+
+      // (0,0) label
+      if (originX > 15 && originX < width - 15 && originY > 15 && originY < height - 15) {
+        ctx.fillStyle = "#64748b";
+        ctx.font = "10px monospace";
+        ctx.textAlign = "right";
+        ctx.fillText("0", originX - 5, originY + 14);
+      }
+
+      // 3. AXIS OF SYMMETRY (Garis putus-putus)
+      const a = state.a;
+      const b = state.b;
+      const c = state.c;
+      const xp = -b / (2 * a);
+      const D = Math.round(b * b - 4 * a * c);
+      const yp = -D / (4 * a);
+
+      const symX = toScreenX(xp);
+      ctx.save();
+      ctx.setLineDash([6, 5]);
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.75)"; // Cyan-400
+      ctx.beginPath();
+      ctx.moveTo(symX, 0);
+      ctx.lineTo(symX, height);
+      ctx.stroke();
+      ctx.restore();
+
+      // Label Sumbu Simetri
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = symX > width - 70 ? "right" : "left";
+      ctx.fillText(`x = ${xp.toFixed(2)}`, symX > width - 70 ? symX - 8 : symX + 8, 25);
+
+      // 4. DRAW PARABOLA CURVE
+      const samples = 350;
+      ctx.save();
+      ctx.beginPath();
+      let firstPoint = true;
+      for (let i = 0; i <= samples; i++) {
+        const curPx = (i / samples) * width;
+        const curX = toMathX(curPx);
+        const curY = a * curX * curX + b * curX + c;
+        const curPy = toScreenY(curY);
+
+        if (firstPoint) {
+          ctx.moveTo(curPx, curPy);
+          firstPoint = false;
+        } else {
+          ctx.lineTo(curPx, curPy);
+        }
+      }
+
+      // Curve styling: Vibrant gradient glow
+      ctx.shadowColor = "#6366f1";
+      ctx.shadowBlur = 12;
+      ctx.strokeStyle = "#818cf8"; // Indigo-400
+      ctx.lineWidth = 2.8;
+      ctx.stroke();
+      ctx.restore();
+
+      // 5. CRUCIAL POINTS MARKING
+      const crucialPoints = [];
+
+      // A. Real Roots
+      if (D > 0) {
+        const sqrtD = Math.sqrt(D);
+        const x1 = (-b + sqrtD) / (2 * a);
+        const x2 = (-b - sqrtD) / (2 * a);
+        crucialPoints.push({ x: x1, y: 0, label: `x₁ (${x1.toFixed(2)}, 0)`, color: '#34d495', type: 'Akar Real x₁' });
+        crucialPoints.push({ x: x2, y: 0, label: `x₂ (${x2.toFixed(2)}, 0)`, color: '#34d495', type: 'Akar Real x₂' });
+      } else if (D === 0) {
+        const x1 = -b / (2 * a);
+        crucialPoints.push({ x: x1, y: 0, label: `x₁=x₂ (${x1.toFixed(2)}, 0)`, color: '#fbbf24', type: 'Akar Kembar' });
+      }
+
+      // B. Y-Intercept (0, c)
+      crucialPoints.push({ x: 0, y: c, label: `(0, ${c})`, color: '#c084fc', type: 'Titik Potong Y' });
+
+      // C. Vertex Point (xp, yp)
+      crucialPoints.push({
+        x: xp,
+        y: yp,
+        label: `Puncak (${xp.toFixed(2)}, ${yp.toFixed(2)})`,
+        color: '#f59e0b',
+        type: a > 0 ? 'Titik Balik Minimum' : 'Titik Balik Maksimum'
+      });
+
+      // Render crucial points with crisp glowing rings
+      crucialPoints.forEach(pt => {
+        const px = toScreenX(pt.x);
+        const py = toScreenY(pt.y);
+
+        if (px >= -20 && px <= width + 20 && py >= -20 && py <= height + 20) {
+          // Outer halo
+          ctx.beginPath();
+          ctx.arc(px, py, 7, 0, Math.PI * 2);
+          ctx.fillStyle = pt.color + '33';
+          ctx.fill();
+
+          // Dot
+          ctx.beginPath();
+          ctx.arc(px, py, 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = pt.color;
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Coordinate label badge
+          ctx.font = 'bold 10px monospace';
+          ctx.fillStyle = '#f8fafc';
+          const labelOffsetY = py > height - 30 ? -12 : 16;
+          const labelOffsetX = px > width - 60 ? -8 : 8;
+          ctx.textAlign = px > width - 60 ? 'right' : 'left';
+          
+          // Badge background
+          const textWidth = ctx.measureText(pt.label).width;
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+          const bgX = ctx.textAlign === 'right' ? px + labelOffsetX - textWidth - 4 : px + labelOffsetX - 4;
+          ctx.fillRect(bgX, py + labelOffsetY - 10, textWidth + 8, 14);
+
+          ctx.fillStyle = pt.color;
+          ctx.fillText(pt.label, px + labelOffsetX, py + labelOffsetY);
+        }
+      });
+
+      // 6. DYNAMIC HOVER CROSSHAIR / INSPECTION BEAD
+      if (state.canvas.hoverPoint) {
+        const hp = state.canvas.hoverPoint;
+        const hMathY = a * hp.mathX * hp.mathX + b * hp.mathX + c;
+        const hScreenY = toScreenY(hMathY);
+
+        // Tracking bead on parabola
+        ctx.beginPath();
+        ctx.arc(hp.screenX, hScreenY, 6, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+        ctx.strokeStyle = "#6366f1";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Crosshair dashed vertical
+        ctx.save();
+        ctx.setLineDash([3, 3]);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(hp.screenX, 0);
+        ctx.lineTo(hp.screenX, height);
+        ctx.moveTo(0, hScreenY);
+        ctx.lineTo(width, hScreenY);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function calculateGridStep(span) {
+      if (span <= 8) return 1;
+      if (span <= 18) return 2;
+      if (span <= 35) return 5;
+      return 10;
+    }
+
+    /* =========================================================================
+       EVENT HANDLERS & 2-WAY SYNCHRONIZATION
+       ========================================================================= */
+
+    // PARAMETER a SYNC & ZERO-SKIP LOGIC
+    let previousA = 1.0;
+    function handleUpdateA(val) {
+      let num = parseFloat(val);
+      if (isNaN(num)) num = 1;
+      if (num === 0) {
+        // Skip 0 smoothly based on transition direction
+        num = previousA > 0 ? -0.5 : 0.5;
+      }
+      num = Math.max(-5, Math.min(5, num));
+      previousA = num;
+      state.a = num;
+      DOM.sliderA.value = num;
+      DOM.numA.value = num;
+      updateAll();
+    }
+
+    function handleUpdateB(val) {
+      let num = parseFloat(val);
+      if (isNaN(num)) num = 0;
+      num = Math.max(-10, Math.min(10, num));
+      state.b = num;
+      DOM.sliderB.value = num;
+      DOM.numB.value = num;
+      updateAll();
+    }
+
+    function handleUpdateC(val) {
+      let num = parseFloat(val);
+      if (isNaN(num)) num = 0;
+      num = Math.max(-10, Math.min(10, num));
+      state.c = num;
+      DOM.sliderC.value = num;
+      DOM.numC.value = num;
+      updateAll();
+    }
+
+    // Sliders
+    DOM.sliderA.addEventListener('input', (e) => handleUpdateA(e.target.value));
+    DOM.sliderB.addEventListener('input', (e) => handleUpdateB(e.target.value));
+    DOM.sliderC.addEventListener('input', (e) => handleUpdateC(e.target.value));
+
+    // Number Inputs
+    DOM.numA.addEventListener('change', (e) => handleUpdateA(e.target.value));
+    DOM.numB.addEventListener('change', (e) => handleUpdateB(e.target.value));
+    DOM.numC.addEventListener('change', (e) => handleUpdateC(e.target.value));
+
+    // Stepper Buttons (+ / -)
+    document.querySelectorAll('.btn-step').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        const step = parseFloat(btn.getAttribute('data-step'));
+        if (target === 'a') handleUpdateA(state.a + step);
+        if (target === 'b') handleUpdateB(state.b + step);
+        if (target === 'c') handleUpdateC(state.c + step);
+      });
+    });
+
+    // Preset Buttons
+    document.querySelectorAll('.btn-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const a = parseFloat(btn.getAttribute('data-a'));
+        const b = parseFloat(btn.getAttribute('data-b'));
+        const c = parseFloat(btn.getAttribute('data-c'));
+        state.canvas.zoom = 1.0;
+        state.canvas.panOffsetX = 0;
+        state.canvas.panOffsetY = 0;
+        handleUpdateA(a);
+        handleUpdateB(b);
+        handleUpdateC(c);
+      });
+    });
+
+    // Reset Button
+    DOM.btnResetDefault.addEventListener('click', () => {
+      state.canvas.zoom = 1.0;
+      state.canvas.panOffsetX = 0;
+      state.canvas.panOffsetY = 0;
+      handleUpdateA(1);
+      handleUpdateB(-1);
+      handleUpdateC(-6);
+    });
+
+    // Canvas Tools: Zoom In, Zoom Out, Auto-fit, Grid Toggle
+    DOM.btnZoomIn.addEventListener('click', () => {
+      state.canvas.zoom = Math.min(3.5, state.canvas.zoom * 1.25);
+      drawParabolaCanvas();
+    });
+
+    DOM.btnZoomOut.addEventListener('click', () => {
+      state.canvas.zoom = Math.max(0.4, state.canvas.zoom / 1.25);
+      drawParabolaCanvas();
+    });
+
+    DOM.btnAutoFit.addEventListener('click', () => {
+      state.canvas.zoom = 1.0;
+      state.canvas.panOffsetX = 0;
+      state.canvas.panOffsetY = 0;
+      drawParabolaCanvas();
+    });
+
+    DOM.btnToggleGrid.addEventListener('click', () => {
+      state.canvas.showGrid = !state.canvas.showGrid;
+      DOM.btnToggleGrid.textContent = state.canvas.showGrid ? "Grid: On" : "Grid: Off";
+      drawParabolaCanvas();
+    });
+
+    // Canvas Mouse Move & Tooltip Inspector
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const bounds = getViewportBounds();
+      const mathX = bounds.xMin + (mouseX / rect.width) * (bounds.xMax - bounds.xMin);
+      const mathY = state.a * mathX * mathX + state.b * mathX + state.c;
+
+      state.canvas.hoverPoint = { screenX: mouseX, screenY: mouseY, mathX, mathY };
+      drawParabolaCanvas();
+
+      // Tooltip position & content
+      DOM.tooltip.style.opacity = '1';
+      DOM.tooltip.style.left = `${Math.min(rect.width - 140, Math.max(10, mouseX + 15))}px`;
+      DOM.tooltip.style.top = `${Math.min(rect.height - 65, Math.max(10, mouseY - 45))}px`;
+
+      DOM.tooltipTitle.textContent = `Titik f(${mathX.toFixed(2)})`;
+      DOM.tooltipCoords.textContent = `x = ${mathX.toFixed(2)}, y = ${mathY.toFixed(2)}`;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      state.canvas.hoverPoint = null;
+      DOM.tooltip.style.opacity = '0';
+      drawParabolaCanvas();
+    });
+
+    // Hint Buttons in Challenges
+    document.querySelectorAll('.btn-hint').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const hint = btn.getAttribute('data-hint');
+        alert("💡 Petunjuk Misi:\n" + hint);
+      });
+    });
+
+    /* =========================================================================
+       AUDIO SPEECH SYNTHESIS (WEB SPEECH API)
+       ========================================================================= */
+    function initSpeech() {
+      if (!('speechSynthesis' in window)) {
+        DOM.btnVoiceNarration.classList.add('opacity-50', 'cursor-not-allowed');
+        DOM.btnVoiceNarration.title = 'Web Speech API tidak didukung di peramban ini.';
+        return;
+      }
+
+      DOM.btnVoiceNarration.addEventListener('click', toggleSpeech);
+    }
+
+    function toggleSpeech() {
+      const synth = window.speechSynthesis;
+      if (state.speech.isSpeaking) {
+        synth.cancel();
+        setSpeechPlayingState(false);
+      } else {
+        startSpeech();
+      }
+    }
+
+    function startSpeech() {
+      const synth = window.speechSynthesis;
+      synth.cancel(); // Reset previous speech
+
+      const a = state.a;
+      const b = state.b;
+      const c = state.c;
+      const D = Math.round(b * b - 4 * a * c);
+      const xp = -b / (2 * a);
+      const yp = -D / (4 * a);
+
+      let text = `Halo! Mari kita analisis persamaan kuadrat ini. `;
+      text += `Bentuk persamaannya adalah: f(x) = ${a} x kuadrat ${b >= 0 ? 'ditambah ' + b : 'dikurang ' + Math.abs(b)} x ${c >= 0 ? 'ditambah ' + c : 'dikurang ' + Math.abs(c)}. `;
+      text += `Pertama, koefisien a bernilai ${a}. Karena a bernilai ${a > 0 ? 'positif' : 'negatif'}, grafik kurva parabola terbuka ke ${a > 0 ? 'atas dengan titik balik minimum' : 'bawah dengan titik balik maksimum'}, pada koordinat ${xp.toFixed(1)}, koma ${yp.toFixed(1)}. `;
+      text += `Kedua, nilai diskriminan D dihitung dengan rumus b kuadrat dikurang 4 a c, menghasilkan nilai ${D}. `;
+
+      if (D > 0) {
+        const sqrtD = Math.sqrt(D);
+        const x1 = (-b + sqrtD) / (2 * a);
+        const x2 = (-b - sqrtD) / (2 * a);
+        text += `Karena D lebih besar dari nol, persamaan ini memiliki dua akar real berbeda. Grafiknya memotong sumbu X di dua titik, yaitu pada x satu sama dengan ${x1.toFixed(2)}, dan x dua sama dengan ${x2.toFixed(2)}. `;
+      } else if (D === 0) {
+        const x1 = -b / (2 * a);
+        text += `Karena D sama dengan nol, persamaan ini memiliki satu akar real kembar, yaitu x sama dengan ${x1.toFixed(2)}. Parabola menyinggung sumbu X tepat di titik puncaknya. `;
+      } else {
+        text += `Karena D lebih kecil dari nol, persamaan ini tidak memiliki akar bilangan real, melainkan akar imajiner. Grafiknya melayang dan tidak pernah memotong sumbu X. `;
+      }
+
+      text += `Menurut Teorema Vieta, jumlah akar-akarnya adalah ${(-b/a).toFixed(2)}, dan hasil kalinya adalah ${(c/a).toFixed(2)}. Silakan lanjutkan eksplorasi!`;
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'id-ID';
+      utterance.rate = 0.95; // Clear instructional pace
+      utterance.pitch = 1.0;
+
+      // Select Indonesian voice if available
+      const voices = synth.getVoices();
+      const idVoice = voices.find(v => v.lang.startsWith('id') || v.lang.includes('ID'));
+      if (idVoice) utterance.voice = idVoice;
+
+      utterance.onstart = () => setSpeechPlayingState(true);
+      utterance.onend = () => setSpeechPlayingState(false);
+      utterance.onerror = () => setSpeechPlayingState(false);
+
+      synth.speak(utterance);
+    }
+
+    function setSpeechPlayingState(isPlaying) {
+      state.speech.isSpeaking = isPlaying;
+      if (isPlaying) {
+        DOM.labelVoice.textContent = "Hentikan Suara";
+        DOM.iconSpeaker.classList.add('hidden');
+        DOM.audioWaveBars.classList.remove('hidden');
+        DOM.voiceStatusBadge.textContent = "Sedang Membaca...";
+        DOM.voiceStatusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 font-mono animate-pulse border border-brand-500/30";
+      } else {
+        DOM.labelVoice.textContent = "Dengarkan AI";
+        DOM.iconSpeaker.classList.remove('hidden');
+        DOM.audioWaveBars.classList.add('hidden');
+        DOM.voiceStatusBadge.textContent = "Siap Diputar";
+        DOM.voiceStatusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono";
+      }
+    }
+
+    // COPY NARRATION TEXT BUTTON
+    DOM.btnCopyNarration.addEventListener('click', () => {
+      const plainText = DOM.narrationText.innerText;
+      navigator.clipboard.writeText(plainText).then(() => {
+        const originalText = DOM.btnCopyNarration.innerHTML;
+        DOM.btnCopyNarration.innerHTML = '✓ Tersalin!';
+        setTimeout(() => {
+          DOM.btnCopyNarration.innerHTML = originalText;
+        }, 1500);
+      });
+    });
+
+    // DOWNLOAD CANVAS AS PNG
+    DOM.btnDownloadPNG.addEventListener('click', () => {
+      // Create high-res export
+      const link = document.createElement('a');
+      link.download = `grafik-parabola-D${state.b*state.b - 4*state.a*state.c}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+
+    // INITIALIZATION ON LOAD
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('DOMContentLoaded', () => {
+      initSpeech();
+
+      // Ensure KaTeX is loaded and ready
+      function waitForKatex() {
+        if (window.katex) {
+          updateAll();
+        } else {
+          setTimeout(waitForKatex, 50);
+        }
+      }
+      waitForKatex();
+      resizeCanvas();
+    });
+  </script>
+</body>
+</html>
